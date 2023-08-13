@@ -13,17 +13,30 @@ export const todoSlice = createSlice({
       const newTodo = {
         id: uuidv4(),
         title:action.payload,
+        change:false,
       };
       state.value.push(newTodo)
      
     },
     deleteTodos: (state, action) => {
-      console.log("delete");
-    return  state.value.filter((item) => item.id !== action.payload.id);
+  
+    state.value =   state.value.filter((item) => item.id !== action.payload);
    
     },
+    editTodos:(state,action)=>{
+      console.log("edit");
+      state.value = state.value.map((item)=> {
+        if(item.id === action.payload.id){
+          return {
+            ...item,
+            title:action.payload.title,
+
+          }
+        }return item
+      })
+    }
   },
 });
 
-export const { addTodos, deleteTodos } = todoSlice.actions;
+export const { addTodos, deleteTodos,  editTodos } = todoSlice.actions;
 export default todoSlice.reducer;

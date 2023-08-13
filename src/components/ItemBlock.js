@@ -1,15 +1,17 @@
 import React from "react";
-
+import { useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
 import { Col, Row, List } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { deleteTodos } from "../slices/TodoSlice";
+import { deleteTodos, editTodos } from "../slices/TodoSlice";
 const ItemBlock = () => {
+  const [ isEditing, setEditing ] = useState(false);
   const todo = useSelector((state) => state.todo.value);
   const dispatch = useDispatch();
  
   return (
     <div>
+     
       <Row>
         <Col offset={2} span={12} push={2}>
           <List
@@ -21,13 +23,14 @@ const ItemBlock = () => {
                 <div>
                   {" "}
                   <DeleteOutlined onClick = {()=> dispatch(deleteTodos(item.id))} />
-                  <EditOutlined />
+                  <EditOutlined onClick = {()=>dispatch(editTodos({id:item.id, title:setEditing}))}/>
                 </div>
               </List.Item>
             )}
           />
         </Col>
       </Row>
+      
     </div>
   );
 };
